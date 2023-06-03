@@ -1,0 +1,184 @@
+package Unidad1;
+
+import java.io.*;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
+import Unidad1EjemplosDeClase.Rutinas;
+
+public class Billetes {
+
+	static File f;
+	static RandomAccessFile arch;
+	int monto;
+	static int nombre, nc;
+	static int[] denominaciones, cant_bill, d;
+	boolean cambio = false;
+	ArrayList<Inventario> inventario = new ArrayList<>();
+
+	public void setMonto(int monto) {
+		this.monto = monto;
+	}
+
+	public void Abrir() throws IOException {
+		f = new File("BILLETES.DAT");
+		arch = new RandomAccessFile(f, "rw");
+	}
+
+	public void Cerrar() throws IOException {
+		arch.close();
+
+	}
+
+	public void setBool(boolean cambio) {
+		this.cambio = cambio;
+	}
+
+	public void Cambiador(ArrayList<Denominacion> distraux) {
+		denominaciones = new int[] { 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1 };
+		cant_bill = new int[10];
+		// se queda con el numero entero de la division monto/1000 (la
+		// cual sera nuestra cantidad de billetes).
+		// Multiplicamos la cantidad de billetes por 1000 y se lo restamos al monto.
+		for (int i = 0; i < denominaciones.length; i++) {
+			cant_bill[i] = monto / denominaciones[i];
+			monto = monto - (cant_bill[i] * denominaciones[i]);
+			if (cant_bill[i] >= 0) {
+				distraux.add(new Denominacion(denominaciones[i], cant_bill[i]));
+			}
+		}
+	}
+
+
+	public void Inventario(ArrayList<Inventario> inventario) {
+		d = new int[] { 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1 };
+
+		if (!cambio) {
+			try {
+				for (int i = 0; i < d.length; i++) {
+					arch.seek((d[i] - 1) * 8);
+
+					nc = arch.readInt();
+					nombre = arch.readInt();
+
+					inventario.add(new Inventario(nc, nombre));
+				}
+			} catch (IOException e) {
+				System.out.println("+++++ fin de contenido ++++++");
+				return;
+			}
+			System.out.println("Hola");
+		}
+
+		if (cambio) {
+
+			System.out.println("Mundo");
+			try {
+				for (int i = 0; i < d.length; i++) {
+					
+					//arch.seek((d[i] - 1) * 4);
+					//arch.writeInt(nc);
+					//arch.seek((d[i] - 1) * 8);
+					//arch.writeInt(nombre);
+					
+					arch.seek((d[i] - 1) * 8);
+					
+					nc = arch.readInt();
+					nombre = arch.readInt();
+					nombre = nombre - cant_bill[i];
+					
+					if (nombre > 0) {
+						inventario.add(new Inventario(nc, nombre));
+						cambio = false;
+					} else {
+						try {
+
+						} catch (Exception a) {
+							JOptionPane.showMessageDialog(null,
+									"El importe excede la cantidad de \n billetes en el inventario.", "ERROR",
+									JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+					
+
+				}
+			} catch (IOException e) {
+				System.out.println("+++++ fin de contenido ++++++");
+				return;
+			}
+		}
+	}
+
+	public void Agrega() throws IOException {
+		//arch.seek(0);
+		for (int i = 0; i < d.length; i++) {
+			arch.seek((d[i] - 1) * 8);
+			
+			nombre = Rutinas.nextInt(10, 20);
+			
+			arch.writeInt(nc);
+			
+			arch.seek((d[i] - 1));
+			
+			arch.writeInt(nombre);
+			
+			arch.seek((d[i] - 1) * 8);
+			
+			nc = arch.readInt();
+			nombre = arch.readInt();
+			
+			inventario.add(new Inventario(nc, nombre));
+		}
+
+		// indexOF se usa para obtener el valor entero de un índice particular de objeto
+		// tipo String,
+		// en base a los criterios especificados en los parámetros del método IndexOf.
+
+			
+
+	}
+
+	public void Captura() throws IOException {
+		arch.seek(0);
+		for (int i = 1; i < 1001; i++) {
+			arch.writeInt(i);
+
+			// indexOF se usa para obtener el valor entero de un índice particular de objeto
+			// tipo String,
+			// en base a los criterios especificados en los parámetros del método IndexOf.
+
+			if ("1*2*5*10*20*50*100*200*500*1000".indexOf((i) + "") > -1) {
+
+				arch.writeInt(Rutinas.nextInt(5, 15));
+			} else {
+				arch.writeInt(0);
+			}
+		}
+	}
+
+}
+
+class Inventario {
+
+	private int denominacion, cantidad;
+
+	public Inventario() {
+
+	}
+
+	public Inventario(int denominacion, int cantidad) {
+		this.denominacion = denominacion;
+		this.cantidad = cantidad;
+	}
+
+	public int getDenominacion() {
+		return denominacion;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+}

@@ -1,0 +1,57 @@
+package PracticaTopicos;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.event.*;
+
+public class JTableAlumnos extends JFrame implements ActionListener{
+
+	private JTable tbl;
+	private DefaultTableModel modelo;
+	
+	public JTableAlumnos () {
+		HazInterfaz();
+	}
+	
+	public void HazInterfaz() {
+		setSize(500,500);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		tbl = new JTable();
+		String [] colmns = new String [] {"ID","NombreAlumno", "Edad", "Calificaciones"};
+		modelo = new DefaultTableModel();
+		modelo.setColumnIdentifiers(colmns);
+		tbl.setModel(modelo);
+		JScrollPane sp = new JScrollPane(tbl);
+		add(tbl);
+		
+		setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		new JTableAlumnos();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
+
+class Alumnos {
+	
+	private int alumnoID,edad,calif;
+	
+	private String nom;
+	
+	public Alumnos() {
+		
+	}
+	
+	
+	
+}

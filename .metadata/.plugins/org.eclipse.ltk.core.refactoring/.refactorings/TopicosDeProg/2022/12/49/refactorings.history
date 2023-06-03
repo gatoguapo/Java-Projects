@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Semaforo.java&apos; to &apos;SistemasOperativos/src/ProyectoProcesos&apos;&#x0D;&#x0A;- Original project: &apos;TopicosDeProg&apos;&#x0D;&#x0A;- Destination element: &apos;SistemasOperativos/src/ProyectoProcesos&apos;&#x0D;&#x0A;- Original element: &apos;Unidad3.Semaforo.java&apos;" description="Copy compilation unit" destination="=SistemasOperativos/src&lt;ProyectoProcesos" element1="/src&lt;Unidad3{Semaforo.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1669951347894" units="1" version="1.0"/>
+</session>

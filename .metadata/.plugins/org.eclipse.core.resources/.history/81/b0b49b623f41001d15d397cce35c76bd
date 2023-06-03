@@ -1,0 +1,22 @@
+package Unidad1;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
+public class prueba {
+	public static void main(String[] args) {
+		int monto = 7658;
+		int[] cant_bill = new int[10];
+		int[] denominaciones = new int[] { 1000, 500, 200, 100, 50, 20, 10, 5, 2, 1 };
+
+		for (int i = 0; i < denominaciones.length; i++) {
+			cant_bill[i] = monto/denominaciones[i];
+			monto = monto -(cant_bill[i] * denominaciones[i]);
+			if(cant_bill[i]>0)
+			System.out.println(cant_bill [i] + "  " + denominaciones[i]);
+		}
+	}
+}

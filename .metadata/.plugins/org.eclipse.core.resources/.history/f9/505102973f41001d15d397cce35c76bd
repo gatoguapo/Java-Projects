@@ -1,0 +1,904 @@
+package Unidad1;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Pares extends JFrame implements ActionListener, ItemListener, MouseListener {
+
+	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("rawtypes")
+	private JComboBox dificultad;
+	private JLabel nivel;
+	private JButton inicio;
+	private JButton carta1aux, carta2aux;
+	private JPanel opciones;
+	private JPanel panelpares;
+	private JButton[][] botonincognita, botonincognitapar;
+	private JButton[][] botonimagenes, botonimagenespar;
+	String catchitem;
+	String carta1, carta2;
+	ImageIcon imgn1 = new ImageIcon("1.jpg");
+	ImageIcon imgn2 = new ImageIcon("2.jpg");
+	ImageIcon imgn3 = new ImageIcon("3.jpg");
+	ImageIcon imgn4 = new ImageIcon("4.jpg");
+	ImageIcon imgn5 = new ImageIcon("5.jpg");
+	ImageIcon imgn6 = new ImageIcon("6.jpg");
+	ImageIcon imgn7 = new ImageIcon("7.jpg");
+	ImageIcon imgn8 = new ImageIcon("8.jpg");
+	ImageIcon imgn9 = new ImageIcon("9.jpg");
+	ImageIcon imgn10 = new ImageIcon("10.jpg");
+	ImageIcon imgn11 = new ImageIcon("11.jpg");
+	ImageIcon imgn12 = new ImageIcon("12.jpg");
+	ImageIcon imgninterrogacion = new ImageIcon("0.jpg");
+
+	ImageIcon ajustar1 = new ImageIcon();
+	ImageIcon ajustar2 = new ImageIcon();
+	ImageIcon ajustar3 = new ImageIcon();
+	ImageIcon ajustar4 = new ImageIcon();
+	ImageIcon ajustar5 = new ImageIcon();
+	ImageIcon ajustar6 = new ImageIcon();
+	ImageIcon ajustar7 = new ImageIcon();
+	ImageIcon ajustar8 = new ImageIcon();
+	ImageIcon ajustar9 = new ImageIcon();
+	ImageIcon ajustar10 = new ImageIcon();
+	ImageIcon ajustar11 = new ImageIcon();
+	ImageIcon ajustar12 = new ImageIcon();
+
+	public static void main(String[] args) {
+		new Pares();
+	}
+
+	public Pares() {
+		HazInterfaz();
+		HazEscuchas();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void HazInterfaz() {
+
+		setSize(500, 500);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		opciones = new JPanel();
+		panelpares = new JPanel();
+
+		add(opciones, BorderLayout.NORTH);
+		opciones.setLayout(new FlowLayout(3, 10, 10));
+
+		String[] dif = new String[] { "Seleccione", "Basico", "Medio", "Experto", };
+		dificultad = new JComboBox<Object>(dif);
+		nivel = new JLabel("Nivel");
+		inicio = new JButton("Inicio");
+
+		opciones.add(nivel);
+		opciones.add(dificultad);
+		opciones.add(inicio);
+
+		panelpares.setLayout(new GridLayout(3, 4));
+		botonincognita = new JButton[2][6];
+		botonincognitapar = new JButton[2][6];
+		botonimagenes = new JButton[botonincognita.length][botonincognita[0].length];
+		botonimagenespar = new JButton[botonincognita.length][botonincognita[0].length];
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				botonincognita[i][j] = new JButton("");
+				panelpares.add(botonincognita[i][j]);
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar[0].length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				botonincognitapar[i][j] = new JButton("");
+				panelpares.add(botonincognitapar[i][j]);
+			}
+		}
+
+		add(panelpares, BorderLayout.CENTER);
+		setVisible(true);
+		panelpares.setVisible(false);
+
+	}
+
+	public void HazEscuchas() {
+		dificultad.addItemListener(this);
+		dificultad.addActionListener(this);
+		inicio.addActionListener(this);
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				botonincognita[i][j].addMouseListener(this);
+				panelpares.add(botonincognita[i][j]);
+			}
+		}
+
+	}
+
+	public void Basico() {
+		setSize(800,600);
+		panelpares = new JPanel();
+		panelpares.setLayout(new GridLayout(2, 4));
+		botonincognita = new JButton[2][2];
+		botonincognitapar = new JButton[2][2];
+
+		int c = 1;
+		int c2 = 1;
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				botonincognita[i][j] = new JButton(c + ".jpg");
+				botonincognita[i][j].addMouseListener(this);
+				panelpares.add(botonincognita[i][j]);
+				c++;
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar[0].length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				botonincognitapar[i][j] = new JButton(c2 + ".jpg");
+				botonincognitapar[i][j].addMouseListener(this);
+				panelpares.add(botonincognitapar[i][j]);
+				c2++;
+			}
+		}
+
+		add(panelpares, BorderLayout.CENTER);
+
+		setVisible(true);
+
+		for (int j = 0; j < botonincognita.length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				int jl = (int) (Math.random() * botonincognita.length);
+				int il = (int) (Math.random() * botonincognita[j].length);
+
+				JButton temp = botonincognita[j][i];
+				botonincognita[j][i] = botonincognita[jl][il];
+				botonincognita[jl][il] = temp;
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar.length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				int jl = (int) (Math.random() * botonincognitapar.length);
+				int il = (int) (Math.random() * botonincognitapar[j].length);
+
+				JButton temp = botonincognitapar[j][i];
+				botonincognitapar[j][i] = botonincognitapar[jl][il];
+				botonincognitapar[jl][il] = temp;
+			}
+		}
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				botonincognita[i][j].setText(c + ".jpg");
+				c++;
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar[0].length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				botonincognitapar[i][j].setText(c2 + ".jpg");
+				c2++;
+			}
+		}
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				ajustar1 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][0].setIcon(ajustar1);
+				ajustar2 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][1].setIcon(ajustar2);
+				ajustar3 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][0].setIcon(ajustar3);
+				ajustar4 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][1].setIcon(ajustar4);
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar[0].length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				ajustar1 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][0].setIcon(ajustar1);
+				ajustar2 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][1].setIcon(ajustar2);
+				ajustar3 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][0].setIcon(ajustar3);
+				ajustar4 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][1].setIcon(ajustar4);
+
+			}
+		}
+	}
+
+	public void Medio() {
+		setSize(900, 700);
+
+		panelpares = new JPanel();
+		panelpares.setLayout(new GridLayout(3, 4));
+		botonincognita = new JButton[2][3];
+		botonincognitapar = new JButton[2][3];
+
+		int c = 1;
+		int c2 = 1;
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				botonincognita[i][j] = new JButton(c + ".jpg");
+				botonincognita[i][j].addMouseListener(this);
+				panelpares.add(botonincognita[i][j]);
+				c++;
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar[0].length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				botonincognitapar[i][j] = new JButton(c2 + ".jpg");
+				botonincognitapar[i][j].addMouseListener(this);
+				panelpares.add(botonincognitapar[i][j]);
+				c2++;
+			}
+		}
+
+		add(panelpares, BorderLayout.CENTER);
+
+		setVisible(true);
+
+		for (int j = 0; j < botonincognita.length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				int jl = (int) (Math.random() * botonincognita.length);
+				int il = (int) (Math.random() * botonincognita[j].length);
+
+				JButton temp = botonincognita[j][i];
+				botonincognita[j][i] = botonincognita[jl][il];
+				botonincognita[jl][il] = temp;
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar.length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				int jl = (int) (Math.random() * botonincognitapar.length);
+				int il = (int) (Math.random() * botonincognitapar[j].length);
+
+				JButton temp = botonincognitapar[j][i];
+				botonincognitapar[j][i] = botonincognitapar[jl][il];
+				botonincognitapar[jl][il] = temp;
+			}
+		}
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				botonincognita[i][j].setText(c + ".jpg");
+				c++;
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar[0].length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				botonincognitapar[i][j].setText(c2 + ".jpg");
+				c2++;
+			}
+		}
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				ajustar1 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][0].setIcon(ajustar1);
+				ajustar2 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][1].setIcon(ajustar2);
+				ajustar3 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][2].setIcon(ajustar3);
+				ajustar4 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][0].setIcon(ajustar4);
+				ajustar5 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][1].setIcon(ajustar5);
+				ajustar6 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][2].setIcon(ajustar6);
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar[0].length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				ajustar1 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][0].setIcon(ajustar1);
+				ajustar2 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][1].setIcon(ajustar2);
+				ajustar3 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][2].setIcon(ajustar3);
+				ajustar4 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][0].setIcon(ajustar4);
+				ajustar5 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][1].setIcon(ajustar5);
+				ajustar6 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][2].setIcon(ajustar6);
+			}
+		}
+	}
+
+	public void Experto() {
+		setSize(900, 700);
+
+		panelpares = new JPanel();
+		panelpares.setLayout(new GridLayout(4, 6));
+		botonincognita = new JButton[2][6];
+		botonincognitapar = new JButton[2][6];
+
+		int c = 1;
+		int c2 = 1;
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				botonincognita[i][j] = new JButton(c + ".jpg");
+				botonincognita[i][j].addMouseListener(this);
+				panelpares.add(botonincognita[i][j]);
+				c++;
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar[0].length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				botonincognitapar[i][j] = new JButton(c2 + ".jpg");
+				botonincognitapar[i][j].addMouseListener(this);
+				panelpares.add(botonincognitapar[i][j]);
+				c2++;
+			}
+		}
+
+		add(panelpares, BorderLayout.CENTER);
+
+		setVisible(true);
+
+		for (int j = 0; j < botonincognita.length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				int jl = (int) (Math.random() * botonincognita.length);
+				int il = (int) (Math.random() * botonincognita[j].length);
+
+				JButton temp = botonincognita[j][i];
+				botonincognita[j][i] = botonincognita[jl][il];
+				botonincognita[jl][il] = temp;
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar.length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				int jl = (int) (Math.random() * botonincognitapar.length);
+				int il = (int) (Math.random() * botonincognitapar[j].length);
+
+				JButton temp = botonincognitapar[j][i];
+				botonincognitapar[j][i] = botonincognitapar[jl][il];
+				botonincognitapar[jl][il] = temp;
+			}
+		}
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				botonincognita[i][j].setText(c + ".jpg");
+				c++;
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar[0].length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				botonincognitapar[i][j].setText(c2 + ".jpg");
+				c2++;
+			}
+		}
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				ajustar1 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][0].setIcon(ajustar1);
+				ajustar2 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][1].setIcon(ajustar2);
+				ajustar3 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][2].setIcon(ajustar3);
+				ajustar4 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][3].setIcon(ajustar4);
+				ajustar5 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][4].setIcon(ajustar5);
+				ajustar6 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[0][5].setIcon(ajustar6);
+				ajustar7 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][0].setIcon(ajustar7);
+				ajustar8 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][1].setIcon(ajustar8);
+				ajustar9 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][2].setIcon(ajustar9);
+				ajustar10 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][3].setIcon(ajustar10);
+				ajustar11 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][4].setIcon(ajustar11);
+				ajustar12 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognita[1][5].setIcon(ajustar12);
+			}
+		}
+
+		for (int j = 0; j < botonincognitapar[0].length; j++) {
+			for (int i = 0; i < botonincognitapar.length; i++) {
+				ajustar1 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][0].setIcon(ajustar1);
+				ajustar2 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][1].setIcon(ajustar2);
+				ajustar3 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][2].setIcon(ajustar3);
+				ajustar4 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][3].setIcon(ajustar4);
+				ajustar5 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][4].setIcon(ajustar5);
+				ajustar6 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[0][5].setIcon(ajustar6);
+				ajustar7 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][0].setIcon(ajustar1);
+				ajustar8 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][1].setIcon(ajustar2);
+				ajustar9 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][2].setIcon(ajustar3);
+				ajustar10 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][3].setIcon(ajustar4);
+				ajustar11 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][4].setIcon(ajustar5);
+				ajustar12 = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[i][j].getWidth(),
+						botonincognita[i][j].getHeight(), Image.SCALE_SMOOTH));
+				botonincognitapar[1][5].setIcon(ajustar6);
+			}
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == inicio && catchitem == "Basico") {
+			Basico();
+			dificultad.setEnabled(false);
+			inicio.setEnabled(false);
+		}
+		if (e.getSource() == inicio && catchitem == "Medio") {
+			Medio();
+			dificultad.setEnabled(false);
+			inicio.setEnabled(false);
+		}
+		if (e.getSource() == inicio && catchitem == "Experto") {
+			Experto();
+			dificultad.setEnabled(false);
+			inicio.setEnabled(false);
+		}
+
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+
+		if (e.getStateChange() != ItemEvent.SELECTED) {
+			e.getItemSelectable();
+			return;
+		}
+
+		if (e.getItem() == "Basico") {
+			catchitem = e.getItem().toString();
+		}
+
+		if (e.getItem() == "Medio") {
+			catchitem = e.getItem().toString();
+		}
+		
+		if (e.getItem() == "Experto") {
+			catchitem = e.getItem().toString();
+		}
+	}
+
+	public void mouseClicked(MouseEvent a) {
+		
+		if(catchitem == "Experto") {
+			for (int j = 0; j < botonimagenes[0].length; j++) {
+				for (int i = 0; i < botonimagenes.length; i++) {
+					botonimagenes[i][j] = new JButton();
+				}
+			}
+
+			for (int j = 0; j < botonimagenespar[0].length; j++) {
+				for (int i = 0; i < botonimagenespar.length; i++) {
+					botonimagenespar[i][j] = new JButton();
+				}
+			}
+
+			ImageIcon imgn1aux = new ImageIcon(imgn1.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[0][0].setIcon(imgn1aux);
+			ImageIcon imgn2aux = new ImageIcon(imgn2.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][1].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[0][1].setIcon(imgn2aux);
+			ImageIcon imgn3aux = new ImageIcon(imgn3.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][2].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[0][2].setIcon(imgn3aux);
+			ImageIcon imgn4aux = new ImageIcon(imgn4.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[0][3].setIcon(imgn4aux);
+			ImageIcon imgn5aux = new ImageIcon(imgn5.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][1].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[0][4].setIcon(imgn5aux);
+			ImageIcon imgn6aux = new ImageIcon(imgn6.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][2].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[0][5].setIcon(imgn6aux);
+			ImageIcon imgn7aux = new ImageIcon(imgn7.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[1][0].setIcon(imgn7aux);
+			ImageIcon imgn8aux = new ImageIcon(imgn8.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][1].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[1][1].setIcon(imgn8aux);
+			ImageIcon imgn9aux = new ImageIcon(imgn9.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][2].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[1][2].setIcon(imgn9aux);
+			ImageIcon imgn10aux = new ImageIcon(imgn10.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[1][3].setIcon(imgn10aux);
+			ImageIcon imgn11aux = new ImageIcon(imgn11.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][1].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[1][4].setIcon(imgn11aux);
+			ImageIcon imgn12aux = new ImageIcon(imgn12.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][2].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[1][5].setIcon(imgn12aux);
+			
+			ImageIcon imgn1paraux = new ImageIcon(imgn1.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[0][0].setIcon(imgn1paraux);
+			ImageIcon imgn2paraux = new ImageIcon(imgn2.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][1].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[0][1].setIcon(imgn2paraux);
+			ImageIcon imgn3paraux = new ImageIcon(imgn3.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][2].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[0][2].setIcon(imgn3paraux);
+			ImageIcon imgn4paraux = new ImageIcon(imgn4.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[0][3].setIcon(imgn4paraux);
+			ImageIcon imgn5paraux = new ImageIcon(imgn5.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][1].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[0][4].setIcon(imgn5paraux);
+			ImageIcon imgn6paraux = new ImageIcon(imgn6.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][2].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[0][5].setIcon(imgn6paraux);
+			ImageIcon imgn7paraux = new ImageIcon(imgn7.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[1][0].setIcon(imgn7paraux);
+			ImageIcon imgn8paraux = new ImageIcon(imgn8.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][1].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[1][1].setIcon(imgn8paraux);
+			ImageIcon imgn9paraux = new ImageIcon(imgn9.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][2].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[1][2].setIcon(imgn9paraux);
+			ImageIcon imgn10paraux = new ImageIcon(imgn10.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[1][3].setIcon(imgn10paraux);
+			ImageIcon imgn11paraux = new ImageIcon(imgn11.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][1].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[1][4].setIcon(imgn11paraux);
+			ImageIcon imgn12paraux = new ImageIcon(imgn12.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[1][2].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[1][5].setIcon(imgn12paraux);
+			ImageIcon nopar = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+
+			for (int j = 0; j < botonincognita[0].length; j++) {
+				for (int i = 0; i < botonincognita.length; i++) {
+					if ((a.getSource() == botonincognita[i][j])) {
+						botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+						carta1aux = (JButton) a.getSource();
+						carta1 = carta1aux.getText();
+					}
+					if ((a.getSource() == botonincognitapar[i][j])) {
+						botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+						carta2aux = (JButton) a.getSource();
+						carta2 = carta2aux.getText();
+						if (carta1.equals(carta2)) {
+							botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+							botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+							botonincognita[i][j].setEnabled(false);
+							botonincognitapar[i][j].setEnabled(false);
+							if (carta1.equals(carta2)==false) {
+								botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+								botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+								botonincognitapar[i][j].setEnabled(false);
+								botonincognita[i][j].setEnabled(false);
+							}
+						}
+
+					}
+					if ((a.getSource() == botonincognitapar[i][j])) {
+						botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+						carta2aux = (JButton) a.getSource();
+						carta2 = carta2aux.getText();
+					}
+					if ((a.getSource() == botonincognita[i][j])) {
+						botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+						carta1aux = (JButton) a.getSource();
+						carta1 = carta1aux.getText();
+						if (carta2.equals(carta1)) {
+							botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+							botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+							botonincognita[i][j].setEnabled(false);
+							botonincognitapar[i][j].setEnabled(false);
+							if (carta2.equals(carta1)) {
+								botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+								botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+								botonincognitapar[i][j].setEnabled(false);
+								botonincognita[i][j].setEnabled(false);
+							}
+						}
+					}
+				}
+			}
+
+			for (int j = 0; j < botonincognita[0].length; j++) {
+				for (int i = 0; i < botonincognita.length; i++) {
+				}
+			}
+			}
+		
+		if(catchitem == "Medio") {
+		for (int j = 0; j < botonimagenes[0].length; j++) {
+			for (int i = 0; i < botonimagenes.length; i++) {
+				botonimagenes[i][j] = new JButton();
+			}
+		}
+
+		for (int j = 0; j < botonimagenespar[0].length; j++) {
+			for (int i = 0; i < botonimagenespar.length; i++) {
+				botonimagenespar[i][j] = new JButton();
+			}
+		}
+
+		ImageIcon imgn1aux = new ImageIcon(imgn1.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenes[0][0].setIcon(imgn1aux);
+		ImageIcon imgn2aux = new ImageIcon(imgn2.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[0][1].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenes[0][1].setIcon(imgn2aux);
+		ImageIcon imgn3aux = new ImageIcon(imgn3.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[0][2].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenes[0][2].setIcon(imgn3aux);
+		ImageIcon imgn4aux = new ImageIcon(imgn4.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[1][0].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenes[1][0].setIcon(imgn4aux);
+		ImageIcon imgn5aux = new ImageIcon(imgn5.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[1][1].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenes[1][1].setIcon(imgn5aux);
+		ImageIcon imgn6aux = new ImageIcon(imgn6.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[1][2].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenes[1][2].setIcon(imgn6aux);
+		ImageIcon imgn1paraux = new ImageIcon(imgn1.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenespar[0][0].setIcon(imgn1paraux);
+		ImageIcon imgn2paraux = new ImageIcon(imgn2.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[0][1].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenespar[0][1].setIcon(imgn2paraux);
+		ImageIcon imgn3paraux = new ImageIcon(imgn3.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[0][2].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenespar[0][2].setIcon(imgn3paraux);
+		ImageIcon imgn4paraux = new ImageIcon(imgn4.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[1][0].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenespar[1][0].setIcon(imgn4paraux);
+		ImageIcon imgn5paraux = new ImageIcon(imgn5.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[1][1].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenespar[1][1].setIcon(imgn5paraux);
+		ImageIcon imgn6paraux = new ImageIcon(imgn6.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[1][2].getHeight(), Image.SCALE_SMOOTH));
+		botonimagenespar[1][2].setIcon(imgn6paraux);
+		ImageIcon nopar = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+				botonincognita[1][2].getHeight(), Image.SCALE_SMOOTH));
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+				if ((a.getSource() == botonincognita[i][j])) {
+					botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+					carta1aux = (JButton) a.getSource();
+					carta1 = carta1aux.getText();
+				}
+				if ((a.getSource() == botonincognitapar[i][j])) {
+					botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+					carta2aux = (JButton) a.getSource();
+					carta2 = carta2aux.getText();
+					if (carta1.equals(carta2)) {
+						botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+						botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+						botonincognita[i][j].setEnabled(false);
+						botonincognitapar[i][j].setEnabled(false);
+						if (carta1.equals(carta2)==false) {
+							botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+							botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+							botonincognitapar[i][j].setEnabled(false);
+							botonincognita[i][j].setEnabled(false);
+						}
+					}
+
+				}
+				if ((a.getSource() == botonincognitapar[i][j])) {
+					botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+					carta2aux = (JButton) a.getSource();
+					carta2 = carta2aux.getText();
+				}
+				if ((a.getSource() == botonincognita[i][j])) {
+					botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+					carta1aux = (JButton) a.getSource();
+					carta1 = carta1aux.getText();
+					if (carta2.equals(carta1)) {
+						botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+						botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+						botonincognita[i][j].setEnabled(false);
+						botonincognitapar[i][j].setEnabled(false);
+						if (carta2.equals(carta1)) {
+							botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+							botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+							botonincognitapar[i][j].setEnabled(false);
+							botonincognita[i][j].setEnabled(false);
+						}
+					}
+				}
+			}
+		}
+
+		for (int j = 0; j < botonincognita[0].length; j++) {
+			for (int i = 0; i < botonincognita.length; i++) {
+			}
+		}
+		}
+		
+		if(catchitem == "Basico") {
+			for (int j = 0; j < botonimagenes[0].length; j++) {
+				for (int i = 0; i < botonimagenes.length; i++) {
+					botonimagenes[i][j] = new JButton();
+				}
+			}
+
+			for (int j = 0; j < botonimagenespar[0].length; j++) {
+				for (int i = 0; i < botonimagenespar.length; i++) {
+					botonimagenespar[i][j] = new JButton();
+				}
+			}
+
+			ImageIcon imgn1aux = new ImageIcon(imgn1.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[0][0].setIcon(imgn1aux);
+			ImageIcon imgn2aux = new ImageIcon(imgn2.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[0][1].setIcon(imgn2aux);
+			ImageIcon imgn3aux = new ImageIcon(imgn3.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[1][0].setIcon(imgn3aux);
+			ImageIcon imgn4aux = new ImageIcon(imgn4.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenes[1][1].setIcon(imgn4aux);
+			ImageIcon imgn1paraux = new ImageIcon(imgn1.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[0][0].setIcon(imgn1paraux);
+			ImageIcon imgn2paraux = new ImageIcon(imgn2.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[0][1].setIcon(imgn2paraux);
+			ImageIcon imgn3paraux = new ImageIcon(imgn3.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[1][0].setIcon(imgn3paraux);
+			ImageIcon imgn4paraux = new ImageIcon(imgn4.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+			botonimagenespar[1][1].setIcon(imgn4paraux);
+			ImageIcon nopar = new ImageIcon(imgninterrogacion.getImage().getScaledInstance(botonincognita[0][0].getWidth(),
+					botonincognita[0][0].getHeight(), Image.SCALE_SMOOTH));
+
+			for (int j = 0; j < botonincognita[0].length; j++) {
+				for (int i = 0; i < botonincognita.length; i++) {
+					if ((a.getSource() == botonincognita[i][j])) {
+						botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+						carta1aux = (JButton) a.getSource();
+						carta1 = carta1aux.getText();
+					}
+					if ((a.getSource() == botonincognitapar[i][j])) {
+						botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+						carta2aux = (JButton) a.getSource();
+						carta2 = carta2aux.getText();
+						if (carta1.equals(carta2)) {
+							botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+							botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+							botonincognita[i][j].setEnabled(false);
+							botonincognitapar[i][j].setEnabled(false);
+							if (carta1.equals(carta2)==false) {
+								botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+								botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+								botonincognitapar[i][j].setEnabled(false);
+								botonincognita[i][j].setEnabled(false);
+							}
+						}
+
+					}
+					if ((a.getSource() == botonincognitapar[i][j])) {
+						botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+						carta2aux = (JButton) a.getSource();
+						carta2 = carta2aux.getText();
+					}
+					if ((a.getSource() == botonincognita[i][j])) {
+						botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+						carta1aux = (JButton) a.getSource();
+						carta1 = carta1aux.getText();
+						if (carta2.equals(carta1)) {
+							botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+							botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+							botonincognita[i][j].setEnabled(false);
+							botonincognitapar[i][j].setEnabled(false);
+							if (carta2.equals(carta1)) {
+								botonincognitapar[i][j].setIcon(botonimagenespar[i][j].getIcon());
+								botonincognita[i][j].setIcon(botonimagenes[i][j].getIcon());
+								botonincognitapar[i][j].setEnabled(false);
+								botonincognita[i][j].setEnabled(false);
+							}
+						}
+					}
+				}
+			}
+
+			for (int j = 0; j < botonincognita[0].length; j++) {
+				for (int i = 0; i < botonincognita.length; i++) {
+				}
+			}
+			}
+	}
+
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

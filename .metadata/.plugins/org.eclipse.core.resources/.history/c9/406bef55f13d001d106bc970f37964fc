@@ -1,0 +1,182 @@
+package Unidad1;
+
+import javax.swing.*;
+import java.awt.event.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class Banco extends JFrame implements ActionListener {
+
+	private JPanel panel_centro, panel_derecha, panel_distribucion, panel_titulo, panel_derecha_titulo;
+	private JButton btn_cambiar, btn_ocultar,btn_mostrar;
+	private JTextField cuadro_importe;
+	private JTable tabla_distribucion, tabla_inventario;
+	private DefaultTableModel columna_distribucion, columna_inventario;
+
+	public static void main(String[] args) {
+		new Banco();
+	}
+
+	public Banco() {
+		super("Banco del cambio");
+		HazInterfaz();
+		HazEscuchas();
+	}
+
+	public void HazInterfaz() {
+		setSize(1400, 900);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+
+		panel_centro = new JPanel();
+		panel_derecha = new JPanel();
+		panel_titulo = new JPanel();
+		panel_derecha_titulo = new JPanel();
+
+		panel_centro.setBackground(new Color(249, 231, 215));
+		panel_derecha.setBackground(new Color(174, 214, 241));
+		panel_titulo.setBackground(new Color(250, 215, 160));
+
+		panel_derecha_titulo.add(new JLabel("Inventario de billetes"));
+		panel_derecha.add(panel_derecha_titulo, BorderLayout.NORTH);
+
+		panel_titulo.add(new JLabel("BANCO DEL CAMBIO"));
+		panel_titulo.add(new JLabel("Caja #1"));
+
+		add(panel_titulo, BorderLayout.NORTH);
+
+		PanelDistribucion();
+		PanelInventairo();
+
+		add(panel_centro);
+		add(panel_derecha, BorderLayout.EAST);
+		this.setVisible(true);
+	}
+
+	public void PanelDistribucion() {
+		btn_cambiar = new JButton("Cambiar");
+		cuadro_importe = new JTextField("\t");
+		tabla_distribucion = new JTable();
+
+		String[] colmsdistrinucion = new String[] { "Denominacion", "Numero Billetes" };
+
+		columna_distribucion = new DefaultTableModel();
+		columna_distribucion.setColumnIdentifiers(colmsdistrinucion);
+		tabla_distribucion.setModel(columna_distribucion);
+
+		JScrollPane sc_distribucion = new JScrollPane(tabla_distribucion);
+
+		TablaDistribucion();
+
+		panel_distribucion = new JPanel();
+		panel_distribucion.setBackground(new Color(93, 109, 126));
+
+		panel_distribucion.add(new JLabel("IMPORTE"), BorderLayout.NORTH);
+		panel_distribucion.add(cuadro_importe, BorderLayout.NORTH);
+		panel_distribucion.add(btn_cambiar, BorderLayout.NORTH);
+		panel_distribucion.add(sc_distribucion, BorderLayout.CENTER);
+
+		panel_centro.add(panel_distribucion);
+	}
+
+	public void PanelInventairo() {
+		tabla_inventario = new JTable();
+		columna_inventario = new DefaultTableModel();
+		btn_ocultar = new JButton("Ocultar");
+		btn_mostrar = new JButton("Mostrar");
+		
+		String[] colmsinventario = new String[] { "Denominacion", "Cantidad" };
+
+		columna_inventario.setColumnIdentifiers(colmsinventario);
+		tabla_inventario.setModel(columna_inventario);
+		
+		TablaInventario();
+
+		JScrollPane sc_inventario = new JScrollPane(tabla_inventario);
+
+		panel_derecha.add(sc_inventario);
+		panel_derecha.add(btn_ocultar, BorderLayout.SOUTH);
+	}
+
+	public void TablaDistribucion() {
+		ArrayList<Denominacion> distribucion = new ArrayList<>();
+
+		DistribucionBilletes distrbill = new DistribucionBilletes();
+
+		distrbill.setMonto(5319);
+		distrbill.Cambiador(distribucion);
+
+		Object[] distribuciondatos = new Object[distribucion.size()];
+
+		for (Denominacion e : distribucion) {
+			distribuciondatos[0] = e.getDenominacion();
+			distribuciondatos[1] = e.getNumbilletes();
+			columna_distribucion.addRow(distribuciondatos);
+		}
+	}
+
+	public void TablaInventario() {
+		ArrayList<Inventario> inventario = new ArrayList<>();
+
+		Billetes billetes = new Billetes();
+
+		try {
+			billetes.Abrir();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		billetes.ImprimeDenominaciones(inventario);
+
+		Object[] inventario_datos = new Object[inventario.size()];
+
+		for (Inventario e : inventario) {
+			inventario_datos[0] = e.getDenominacion();
+			inventario_datos[1] = e.getCantidad();
+			columna_inventario.addRow(inventario_datos);
+		}
+	}
+
+	public void HazEscuchas() {
+		btn_ocultar.addActionListener(this);
+		btn_mostrar.addActionListener(this);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		boolean isVisible = true;
+		if (e.getSource() == btn_ocultar) {
+				tabla_inventario.setVisible(false);
+				btn_ocultar.setVisible(false);
+				panel_derecha.add(btn_mostrar);
+			// Como hacer para que el isVisible sea false al entrar a la primera condicion,
+		}
+		if (e.getSource() == btn_mostrar) {
+			tabla_inventario.setVisible(true);
+			btn_ocultar.setVisible(true);
+		// Como hacer para que el isVisible sea false al entrar a la primera condicion,
+	}
+	}
+}
+
+class Denominacion {
+	private int denominacion, numbilletes;
+
+	public Denominacion() {
+
+	}
+
+	public Denominacion(int denominacion, int numbilletes) {
+		this.denominacion = denominacion;
+		this.numbilletes = numbilletes;
+	}
+
+	public int getDenominacion() {
+		return denominacion;
+	}
+
+	public int getNumbilletes() {
+		return numbilletes;
+	}
+
+}

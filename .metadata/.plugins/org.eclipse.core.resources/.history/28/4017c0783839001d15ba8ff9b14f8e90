@@ -1,0 +1,209 @@
+package PracticaTopicos;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.BorderLayout;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Random;
+
+public class JTableAlumnos extends JFrame implements ActionListener {
+
+	private JTable tbl1,tbl2;
+	private DefaultTableModel modeloEstablecido, modeloInsertar;
+	private JPanel opciones;
+	private JTextField nombre, edad, calificaciones;
+	private ArrayList<Alumno> datosAlum;
+	private Object[] datos;
+	private JButton inicio;
+	int id;
+
+	public JTableAlumnos() {
+		super("TABLA DE ALUMNOS");
+		HazInterfaz();
+		HazEscuchas();
+	}
+
+	public static void main(String[] args) {
+		new JTableAlumnos();
+	}
+
+	public void HazInterfaz() {
+		setSize(500, 500);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		datosAlum = new ArrayList<>();
+
+		inicio = new JButton("Inicio");
+		opciones = new JPanel();
+		nombre = new JTextField("Introduzca su nombre", 10);
+		edad = new JTextField();
+		calificaciones = new JTextField();
+
+		opciones.setLayout(new GridLayout(0, 2));
+
+		opciones.add(new JLabel("Nombre del alumno:"));
+		opciones.add(nombre);
+
+		opciones.add(new JLabel("Edad del alumno:"));
+		opciones.add(edad);
+
+		opciones.add(new JLabel("Calificaciones:"));
+		opciones.add(calificaciones);
+
+		opciones.add(inicio);
+
+		tbl1 = new JTable();
+		tbl2 = new JTable();
+
+		add(opciones, BorderLayout.NORTH);
+		String[] colmns = new String[] { "ID", "NombreAlumno", "Edad", "Calificaciones" };
+		modeloEstablecido = new DefaultTableModel();
+		modeloEstablecido.setColumnIdentifiers(colmns);
+		modeloInsertar = new DefaultTableModel();
+		modeloInsertar.setColumnIdentifiers(colmns);
+		tbl1.setModel(modeloEstablecido);
+		tbl2.setModel(modeloInsertar);
+
+		JScrollPane sp = new JScrollPane(tbl1);
+		JScrollPane sp2 = new JScrollPane(tbl2);
+		add(sp, BorderLayout.CENTER);
+		
+		Agrega();
+		setVisible(true);
+		
+	}
+
+	public void HazEscuchas() {
+		inicio.addActionListener(this);
+	}
+
+	/*
+	 * public int id() {
+	 * 
+	 * int id = (int) ((Math.random() * (9999 - 1000)) + 1000);
+	 * 
+	 * return id; }
+	 */
+
+	public void Agrega() {
+		
+		ArrayList<Alumno> datosAlumnoBase = new ArrayList<>();
+		
+		datosAlumnoBase.add(new Alumno(0, 21, 80, "Raul"));
+		datosAlumnoBase.add(new Alumno(0, 20, 95, "Maria"));
+		datosAlumnoBase.add(new Alumno(0, 21, 70, "Celeste"));
+		datosAlumnoBase.add(new Alumno(0, 19, 85, "Chikis"));
+		datosAlumnoBase.add(new Alumno(0, 19, 75, "Alfredo"));
+		datosAlumnoBase.add(new Alumno(0, 20, 74, "Juan"));
+
+	
+		Object [] datosEstablecidos = new Object[datosAlumnoBase.size()];
+		
+		id = 1;
+		
+		for (Alumno e : datosAlumnoBase) {
+
+			datosEstablecidos[0] = id++;
+			datosEstablecidos[1] = e.getNom();
+			datosEstablecidos[2] = e.getEdad();
+			datosEstablecidos[3] = e.getCalif();
+			modeloEstablecido.addRow(datosEstablecidos);
+		}
+	}
+	
+	public void InsertarAlumnos() {
+		
+		while (modeloInsertar.getRowCount()>0) {
+			modeloInsertar.removeRow(0);
+		}
+		
+		datos = new Object[10];
+		
+		id = 1;
+
+		for (Alumno e : datosAlum) {
+
+			datos[0] = id++;
+			datos[1] = e.getNom();
+			datos[2] = e.getEdad();
+			datos[3] = e.getCalif();
+			modeloInsertar.addRow(datos);
+		}
+	}
+	
+	/*public ArrayList<Alumno> returnAlumnosInsertados () {
+		
+		ArrayList<Alumno> AlumnosInsertados = new ArrayList<>();
+		
+		datosAlum.add(new Alumno(0, 21, 90, "Jaime"));
+		
+		return AlumnosInsertados;
+	}*/
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Alumno alumno = new Alumno();
+		alumno.setAlumnoID(id);
+		alumno.setEdad(Integer.parseInt(edad.getText().toString()));
+		alumno.setCalif(Integer.parseInt(calificaciones.getText().toString()));
+		alumno.setNom(nombre.getText().toString());
+		datosAlum.add(alumno);
+		InsertarAlumnos();
+	}
+
+}
+
+class Alumno {
+
+	private int alumnoID, edad, calif;
+
+	private String nom;
+
+	public Alumno(int alumnoID, int edad, int calif, String nom) {
+		this.alumnoID = alumnoID;
+		this.edad = edad;
+		this.calif = calif;
+		this.nom = nom;
+	}
+
+	public void setAlumnoID(int alumnoID) {
+		this.alumnoID = alumnoID;
+	}
+
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+
+	public void setCalif(int calif) {
+		this.calif = calif;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public Alumno() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getAlumnoID() {
+		return alumnoID;
+	}
+
+	public int getEdad() {
+		return edad;
+	}
+
+	public int getCalif() {
+		return calif;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+}
